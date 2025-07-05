@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ block.super }} - quiz detail
+{% endblock %}
+{% block content %}
+
+<div class="flex justify-center mt-8">
+
+  <div class="w-[300px] p-3 border">
+
+    <div class="text-lg font-semibold">
+
+      <h1>{{ quiz.name }}</h1>
+      <p>Topic: {{ quiz.topic }}</p>
+      <p>Number of Questions: {{ quiz.number_of_questions }}</p>
+      <p>Time: {{ quiz.time }} seconds</p>
+      <p>Required Score to Pass: {{ quiz.required_score_to_pass }}</p>
+
+    </div>
+
+    <div class="mt-4">
+
+      <a href="{% url 'quiz_take' quiz.pk %}" class="border border-blue-600 text-sm font-semibold px-2 py-1 rounded-sm text-blue-600 hover:bg-blue-600 hover:text-white">Start Quiz</a>
+
+    </div>
+
+  </div>
+  
+  
+
+</div>
+  
+{% endblock %}

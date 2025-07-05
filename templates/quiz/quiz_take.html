@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ block.super }} - quiz start
+{% endblock %}
+
+{% block content %}
+
+<div class="flex justify-center">
+  <div class="w-[800px] relative">
+
+    <!-- TIMER BOX -->
+    <div id="timerBox" class="fixed top-12 right-8 md:right-1/4 border border-blue-600 shadow-lg p-1 rounded-sm flex items-baseline justify-end items-center mt-6">
+      <span id="timer" class="text-lg font-bold text-blue-600">{{ quiz.time }}</span>
+      <span class="text-sm text-blue-600 font-semibold ml-[2px]">s</span>
+    </div>
+
+    <!-- QUIZ FORM -->
+    <form id="quiz-form" class="p-2" method="POST" action="{% url 'quiz_submit' quiz.pk %}">
+      {% csrf_token %}
+      <h1 class="text-2xl text-center font-semibold mt-10 mb-4">{{ quiz.name }}</h1>
+
+      <div class="flex justify-evenly gap-2 flex-wrap">
+        {% for question in questions %}
+        <div class="border shadow mb-4 w-[250px]">
+          <h3 class="text-center text-xl font-semibold py-2 bg-blue-100 mb-2">{{ question.title }}</h3>
+          <div class="ml-10 flex flex-col space-y-3 mb-3">
+            <label><input type="radio" name="question_{{ question.id }}" value="{{ question.option_a }}"> {{ question.option_a }}</label>
+            <label><input type="radio" name="question_{{ question.id }}" value="{{ question.option_b }}"> {{ question.option_b }}</label>
+            <label><input type="radio" name="question_{{ question.id }}" value="{{ question.option_c }}"> {{ question.option_c }}</label>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="flex justify-between mb-4">
+        <a href="{% url 'quiz_detail' quiz.id %}" class="border border-slate-600 text-sm font-semibold px-2 py-1 rounded-sm text-slate-600 hover:bg-slate-600 hover:text-white">Back</a>
+        <button type="submit" id="submitButton" class="border border-blue-600 text-sm font-semibold px-2 py-1 rounded-sm text-blue-600 hover:bg-blue-600 hover:text-white">Submit</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+{% if request.method == "GET" %}
+<script>
+  sessionStorage.removeItem('quiz_submitted');
+</script>
+{% endif %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('quiz-form');
+    const submitButton = document.getElementById('submitButton');
+    const timerBox = document.getElementById('timerBox');
+    const timerElement = document.getElementById('timer');
+  
+    function hideTimerIfSubmitted() {
+      if (sessionStorage.getItem('quiz_submitted') === '1') {
+        if (timerBox) {
+          timerBox.style.display = 'none';
+        }
+        return true;
+      }
+      return false;
+    }
+  
+    // Cek pertama saat DOM loaded
+    if (hideTimerIfSubmitted()) {
+      return; // Jangan jalankan timer sama sekali
+    }
+  
+    // Setup form submit
+    form.addEventListener('submit', () => {
+      submitButton.disabled = true;
+      submitButton.innerText = 'Submitting...';
+      sessionStorage.setItem('quiz_submitted', '1');
+    });
+  
+    // Timer countdown
+    var timeRemaining = {{ quiz.time }};
+    var countdownInterval = setInterval(function () {
+      timeRemaining--;
+      timerElement.textContent = timeRemaining;
+      if (timeRemaining <= 0) {
+        clearInterval(countdownInterval);
+        sessionStorage.setItem('quiz_submitted', '1');
+        submitButton.disabled = true;
+        submitButton.innerText = 'Submitting...';
+        form.submit();
+      }
+    }, 1000);
+  
+    // Saat halaman muncul dari cache
+    window.addEventListener('pageshow', function (event) {
+      if (hideTimerIfSubmitted()) {
+        clearInterval(countdownInterval); // Pastikan timer berhenti
+      }
+    });
+  });
+  
+  </script>
+  
+{% endblock %}

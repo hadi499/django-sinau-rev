@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {{ block.super }} - posts
+{% endblock %}
+
+{% block content %}
+
+
+<div class="flex justify-center mt-8">
+
+  <div class="w-full p-2 md:w-[400px]">
+            
+         
+            {% for post in posts %}        
+              <a  href="{% url "post_detail" post.id %}" >
+                <div class="border border-indigo-600 text-sm font-semibold px-2 py-2 rounded-sm text-indigo-600 hover:bg-indigo-600 hover:text-white w-full text-center mb-3">{{post.title}}</div>
+              </a>
+            {% endfor %}
+      
+
+  </div>
+
+
+</div>
+
+
+
+{% endblock content %}

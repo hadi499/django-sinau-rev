@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ block.super }} - scores
+{% endblock title %}
+
+{% block content %}
+<div class="flex justify-center mt-8">
+
+  <div class="w-full p-2 md:w-[400px]">
+
+  
+      <a  href="{% url "result_quiz_all" %}" >
+        <div class="border border-blue-600 text-sm font-semibold px-2 py-2 rounded-sm text-blue-600 hover:bg-blue-600 hover:text-white w-full text-center mb-3">All Scores Quiz</div>
+      </a>
+     
+     
+
+  </div>
+  
+  
+
+</div>
+
+
+{% endblock content %}

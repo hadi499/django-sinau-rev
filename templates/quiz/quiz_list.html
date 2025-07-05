@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ block.super }} - quiz lists
+{% endblock %}
+{% block content %}
+
+<div class="flex justify-center mt-8">
+
+  <div class="w-full md:w-[400px] p-2">
+    {% for quiz in quizzes %}
+
+    <a  href="{% url 'quiz_detail' quiz.pk %}" >
+      <div class="border border-blue-600 text-sm font-semibold px-2 py-2 rounded-sm text-blue-600 hover:bg-blue-600 hover:text-white w-full text-center mb-3">{{ quiz.name }} - {{ quiz.topic }}</div>
+    </a>
+
+    {% endfor %}
+
+
+  </div>
+  
+  
+
+</div>
+
+{% endblock %}

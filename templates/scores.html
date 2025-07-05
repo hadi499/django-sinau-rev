@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ block.super }} - scores
+{% endblock title %}
+
+{% block content %}
+<div class="flex justify-center mt-8">
+
+  <div class="w-full p-2 md:w-[400px]">
+
+    {% if request.user.is_authenticated and request.user.is_superuser %}
+      <a  href="{% url "all_scores" %}" >
+        <div class="border border-orange-600 text-sm font-semibold px-2 py-2 rounded-sm text-orange-600 hover:bg-orange-600 hover:text-white w-full text-center mb-3">All Scores</div>
+      </a>
+      {% endif %}
+      <a  href="{% url "scores_quiz" %}" >
+        <div class="border border-blue-600 text-sm font-semibold px-2 py-2 rounded-sm text-blue-600 hover:bg-blue-600 hover:text-white w-full text-center mb-3">Scores Quiz</div>
+      </a>
+      
+     
+     
+      
+
+
+  </div>
+  
+  
+
+</div>
+
+
+{% endblock content %}

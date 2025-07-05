@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" type="image/png" href="{% static 'favicon.png' %}" >
+
+  <script src="//unpkg.com/alpinejs" defer></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style type="text/tailwindcss">
+    @layer base {
+      ol {
+        @apply list-decimal pl-5;
+      }
+      ol > li {
+        @apply pl-2;
+      }
+    }
+  </style>
+
+  <title>
+    {% block title %}
+    Sinau App
+    {% endblock %}
+</title>
+</head>
+<body>
+  {% include 'navbar.html' %} 
+  
+  {% block content %}
+  {% endblock content %}
+
+  
+</body>
+</html>

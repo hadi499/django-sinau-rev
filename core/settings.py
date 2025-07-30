@@ -26,9 +26,13 @@ SECRET_KEY = 'django-insecure-$16)=uhf_*0ns_o1khn(srv-a6*e5tcdin)vtjii736tp@65lf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://mydjango.koncosinau.site",  # Ganti dengan domain kamu
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -93,13 +97,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "OPTIONS": {
+            "min_length": 3,
+        },
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    # },
 ]
 
 

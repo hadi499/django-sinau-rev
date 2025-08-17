@@ -1,0 +1,36 @@
+uv run gunicorn core.wsgi:application --bind 0.0.0.0:8000
+
+#install nginx di amazon linux
+sudo dnf install nginx -y
+sudo systemctl enable nginx
+sudo systemctl start nginx
+
+#install nginx di ubuntu
+sudo apt update
+sudo apt install nginx -y
+sudo systemctl enable nginx
+sudo systemctl start nginx
+
+# Setup reverse proxy 
+/etc/nginx/conf.d/django.conf (Amazon Linux):
+server {
+    listen 80;
+    server_name _;
+
+    location /static/ {
+        alias /var/www/django/staticfiles/;
+    }
+
+    location /media/ {
+        alias /var/www/django/media/;
+    }
+
+
+    location / {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+}
+
+sudo systemctl restart nginx
